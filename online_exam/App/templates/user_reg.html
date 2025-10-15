@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registration</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+  <style>
+    body {
+      background: linear-gradient(to right, #e3f2fd, #bbdefb);
+      font-family: 'Segoe UI', sans-serif;
+      padding: 60px 15px;
+    }
+
+    .form-container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      margin: auto;
+      position: relative;
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 1.8rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      border: none;
+      border-bottom: 2px solid #ccc;
+      background: transparent;
+      outline: none;
+      height: 45px;
+      font-size: 16px;
+    }
+
+    .form-group label {
+      position: absolute;
+      top: 12px;
+      left: 0;
+      pointer-events: none;
+      transition: 0.3s ease all;
+      font-size: 16px;
+      color: #777;
+    }
+
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label,
+    .form-group select:focus + label,
+    .form-group select:valid + label {
+      top: -14px;
+      font-size: 13px;
+      color: #007bff;
+    }
+
+    .webcam-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    #video, #canvas {
+      width: 48%;
+      height: 180px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .btn-dark {
+      background-color: #343a40;
+      width: 100%;
+    }
+
+    .btn-dark:hover {
+      background-color: #23272b;
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <h3 class="text-center mb-4">Registration Form</h3>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <input type="text" name="name" placeholder=" " required />
+      <label>Name</label>
+    </div>
+    <div class="form-group">
+      <input type="email" name="email" placeholder=" " required />
+      <label>Email</label>
+    </div>
+    <div class="form-group">
+      <input type="password" name="password" placeholder=" " required />
+      <label>Password</label>
+    </div>
+    <div class="form-group">
+      <input type="number" name="mobile" placeholder=" " required />
+      <label>Mobile No</label>
+    </div>
+    <div class="form-group">
+      <select name="dept" required>
+        <option value="" disabled selected hidden></option>
+        <option value="computer">Computer Science</option>
+        <option value="biology">Full Stack Development</option>
+      </select>
+      <label>Department</label>
+    </div>
+    <div class="form-group">
+      <select name="type" required>
+        <option value="" disabled selected hidden></option>
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+        <option value="admin">Admin</option>
+      </select>
+      <label>Role</label>
+    </div>
+
+    <div class="form-group">
+      <label for="photoUpload">Upload a Photo</label><br><br><br>
+      <input type="file" class="form-control-file" id="photoUpload" name="photo">
+    </div>
+
+    <form id="examForm" method="POST" action="/submit">
+  <label class="d-block mb-1">Or Take a Picture</label>
+  <div class="webcam-section">
+    <video id="video" autoplay></video>
+    <canvas id="canvas" style="display:none; width:320px; height:240px;"></canvas>
+  </div>
+  <input type="hidden" name="capturedPhoto" id="capturedPhoto">
+  <button type="button" class="btn btn-secondary mt-2 w-100" id="snap">Take Photo</button>
+
+  <button type="submit" class="btn btn-dark mt-4">Submit</button>
+</form>
+
+<div class="form-footer mt-3">
+  Already have an account? <a href="log">Sign In</a>
+</div>
+
+<!-- Webcam Script -->
+<script>
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('canvas');
+  const snap = document.getElementById('snap');
+  const capturedPhoto = document.getElementById('capturedPhoto');
+  const form = document.getElementById('examForm');
+
+  // Set canvas size to video size when video metadata loads
+  video.addEventListener('loadedmetadata', () => {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+  });
+
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function (stream) {
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(function (error) {
+        console.error("Webcam not available:", error);
+        alert("Webcam not available or permission denied.");
+      });
+  }
+
+  snap.addEventListener("click", function () {
+    canvas.style.display = 'block'; // Show captured image preview
+    const context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataUrl = canvas.toDataURL('image/png');
+    capturedPhoto.value = dataUrl;
+    alert("Photo taken successfully!");
+  });
+
+  form.addEventListener('submit', function (e) {
+    if (!capturedPhoto.value) {
+      e.preventDefault();
+      alert('Please take a photo before submitting the form.');
+      return false;
+    }
+  });
+</script>
+
+
+</body>
+</html>

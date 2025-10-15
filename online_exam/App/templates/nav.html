@@ -1,0 +1,65 @@
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-5-strong">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" style="font-family: Lobster, serif; font-size: 25px;">Online Exam Proctor</a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
+      <ul class="navbar-nav gap-3">
+        <li class="nav-item">
+          <a href="http://127.0.0.1:8000/" class="nav-link active">Home</a>
+        </li>
+
+        {% if user.is_authenticated %}
+
+          {% if user.reg_type == 'admin' %}
+            <li class="nav-item">
+              <a href="exam_code" class="nav-link active">Announce Exam Code</a>
+            </li>
+            <li class="nav-item">
+              <a href="exam_result" class="nav-link active">Exam Details</a>
+            </li>
+
+          {% elif user.reg_type == 'teacher' %}
+            <li class="nav-item">
+              <a href="question" class="nav-link active">Add Questions</a>
+            </li>
+
+          {% elif user.reg_type == 'student' %}
+            <li class="nav-item">
+              <a href="code_show" class="nav-link active">Exam Code</a>
+            </li>
+            <li class="nav-item">
+              <a href="exam" class="nav-link active">Online Exam</a>
+            </li>
+            <li class="nav-item">
+              <a href="set_reminder" class="nav-link active"><i class="fas fa-bell"></i> Reminder</a>
+            </li>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+          {% endif %}
+          
+
+          <li class="nav-item">
+            <a href="logout" class="nav-link active">Log out</a>
+          </li>
+
+        {% else %}
+          <li class="nav-item">
+            <a href="reg" class="nav-link active">Register</a>
+          </li>
+          <li class="nav-item">
+            <a href="log" class="nav-link active">Login</a>
+          </li>
+        {% endif %}
+        
+         
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% endblock content %}

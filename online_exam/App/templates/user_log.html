@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .login-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .login-left {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1566888596782-c7f41cc184c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            color: white;
+            padding: 40px;
+        }
+
+        .login-left h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 60%;
+        }
+
+        .login-right {
+            flex: 1;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-box h3 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-box .form-control {
+            height: 45px;
+            margin-bottom: 20px;
+        }
+
+        .login-box button {
+            height: 45px;
+            background-color: #0066ff;
+            border: none;
+        }
+
+        .login-box button:hover {
+            background-color: #004cd6;
+        }
+
+        .login-box .bottom-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .login-box a {
+            color: #0066ff;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .login-box a:hover {
+            text-decoration: underline;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-logo img {
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <!-- Left section with image -->
+    <div class="login-left">
+    
+    </div>
+
+    <!-- Right section with login form -->
+    <div class="login-right">
+        <div class="login-box">
+            <div class="login-logo">
+                
+                <img src='static/user.png' alt="Logo">
+            </div>
+            <h3>Log In</h3>
+            <form method="POST" action="#">
+                {% csrf_token %}
+                <input type="email" class="form-control" name="email" placeholder="Your account email" required>
+                <input type="password" class="form-control" name="password" placeholder="Enter your secure password" required>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span></span>
+                    <p><a href="forgot_password">Forgot Password?</a></p>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Log In</button>
+
+                <div class="text-center mt-3">
+                    <span>──────── or ────────</span>
+                </div>
+
+                <div class="bottom-text mt-3">
+                    <a href="reg">Create your account</a>
+                </div>
+            </form>
+
+            <div class="text-center text-muted mt-4" style="font-size: 12px;">
+                © 2024 Territorium | All rights reserved | <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

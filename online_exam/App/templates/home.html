@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background-image: url("static/images.jpeg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 0;
+    }
+
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        animation: slideDown 0.5s ease;
+    }
+
+    .nav-link {
+        color: #007bff !important;
+        font-weight: 600;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: #0056b3 !important;
+        transform: scale(1.1);
+    }
+
+    .welcome-container {
+        position: relative;
+        z-index: 1;
+        margin-top: 120px;
+        background-color: rgba(255, 255, 255, 0.514);
+        padding: 40px 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    .welcome-container h2 {
+        color: #007bff;
+        margin-bottom: 15px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes slideDown {
+        from {
+            transform: translateY(-40px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .welcome-container {
+            margin: 100px 20px 20px;
+            padding: 25px 20px;
+        }
+    }
+</style>
+
+<!-- Background overlay -->
+<div class="overlay"></div>
+
+<!-- Welcome Box -->
+<div class="welcome-container">
+    <h2>Welcome to the Exam Portal</h2>
+    <p>Prepare for your exams with confidence.</p>
+</div>
+{% endblock content %}

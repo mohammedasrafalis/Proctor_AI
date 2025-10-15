@@ -1,0 +1,5 @@
+ 1. open the anaconda prompt
+2, activate exam
+3, cd C:\Users\moham\OneDrive\Desktop\SOURCE CODE\online_exam
+4. python manage.py runserver
+5. copy url from prompt and paste to browser

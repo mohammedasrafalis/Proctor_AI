@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url('/static/teac.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: 'Cabin', sans-serif;
+    }
+
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        animation: slideDown 0.5s ease;
+    }
+
+    .nav-link {
+        color: #007bff !important;
+        font-weight: 600;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: #0056b3 !important;
+        transform: scale(1.1);
+    }
+    @keyframes slideDown {
+        from { transform: translateY(-100%); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .question-card {
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .question-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 10px 20px;
+        font-weight: 500;
+        border-radius: 10px;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-secondary:hover {
+        background-color: #6c757d;
+    }
+</style>
+
+<hr><hr><hr>
+
+<form action="question" method="post" id="question-form">
+    {% csrf_token %}
+    <div class="container mt-5">
+        <div class="row" id="question-container">
+            <!-- Dynamic question blocks injected here -->
+        </div>
+
+        <div class="row d-flex justify-content-center mb-5 mt-3">
+            <button type="button" class="btn btn-secondary me-3" onclick="addQuestion()">➕ Add Question</button>
+            <input type="submit" class="btn btn-primary" value="✅ Submit Questions">
+            
+        </div>
+    </div>
+    
+</form>
+
+{% if messages %}
+<div class="container mt-3">
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<script>
+    let questionCount = 0;
+
+    function addQuestion() {
+        questionCount++;
+
+        const rowContainer = document.getElementById("question-container");
+
+        const col = document.createElement("div");
+        col.className = "col-md-6 col-lg-4 mb-4 fade-in";
+
+        col.innerHTML = `
+            <div class="question-card">
+                <h5 class="mb-3">Question ${questionCount}</h5>
+                <input required type="text" name="quest${questionCount}" placeholder="Enter question" class="form-control mb-2">
+                <input required type="text" name="q${questionCount}p1" placeholder="Option 1" class="form-control mb-2">
+                <input required type="text" name="q${questionCount}p2" placeholder="Option 2" class="form-control mb-2">
+                <input required type="text" name="q${questionCount}p3" placeholder="Option 3" class="form-control mb-2">
+                <input required type="text" name="q${questionCount}p4" placeholder="Option 4" class="form-control mb-3">
+
+                <label for="correct-answer-${questionCount}" class="form-label">Correct Answer</label>
+                <select name="correct_answer_${questionCount}" id="correct-answer-${questionCount}" class="form-select mb-2">
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                    <option value="4">Option 4</option>
+                </select>
+            </div>
+        `;
+
+        rowContainer.appendChild(col);
+        col.classList.add('animate');
+    }
+
+    // Add 3 initial questions
+    for (let i = 0; i < 3; i++) {
+        addQuestion();
+    }
+</script>
+
+<style>
+    /* Fade-in animation for new questions */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(10px);
+        animation: fadeIn 0.4s ease forwards;
+    }
+
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+{% endblock content %}

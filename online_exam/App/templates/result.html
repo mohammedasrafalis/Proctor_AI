@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Custom Styles -->
+<style>
+    body {
+        background-image: url('static/result.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #fff;
+    }
+
+    
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        animation: slideDown 0.5s ease;
+    }
+
+    .nav-link {
+        color: #007bff !important;
+        font-weight: 600;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: #0056b3 !important;
+        transform: scale(1.1);
+    }
+
+    .results-container {
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 15px;
+        padding: 30px;
+        margin-top: 5%;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    }
+
+    .table th, .table td {
+        vertical-align: middle !important;
+        text-align: center;
+    }
+
+    .table-striped tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .no-data {
+        color: #ffc107;
+        font-size: 1.2rem;
+        padding-top: 20px;
+        text-align: center;
+    }
+
+    h2 {
+        text-align: center;
+        color: #ffffff;
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container results-container">
+    <h2>Exam Results</h2>
+
+    {% if data %}
+    <div class="table-responsive">
+        <table id="example" class="table table-dark table-striped table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>User ID</th>
+                    <th>User Name</th>
+                    <th>Result</th>
+                    <th>Strike</th>
+                    <th>Tab Strike</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <td>{{ i.stu_id.id }}</td>
+                    <td>{{ i.stu_id.username }}</td>
+                    <td>{{ i.result }}</td>
+                    <td>{{ i.strike }}</td>
+                    <td>{{ i.Tab_strike }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="no-data"><strong>No results available.</strong></p>
+    {% endif %}
+</div>
+
+<!-- DataTables Initialization -->
+<script>
+    new DataTable('#example');
+</script>
+
+{% endblock content %}
